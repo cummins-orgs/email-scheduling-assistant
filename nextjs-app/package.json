@@ -1,0 +1,35 @@
+{
+  "name": "nextjs-app",
+  "version": "1.0.0",
+  "description": "A modern web application using the Next.js framework",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "keywords": ["nextjs", "email", "scheduler", "gpt3", "google-calendar"],
+  "author": "Arbury Labs",
+  "license": "ISC",
+  "dependencies": {
+    "next": "latest",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "nodemailer": "^6.6.3",
+    "googleapis": "^73.0.0",
+    "openai": "^0.27.0",
+    "typescript": "^4.5.2"
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.6",
+    "@types/react": "^17.0.37",
+    "@types/react-dom": "^17.0.11",
+    "@typescript-eslint/eslint-plugin": "^5.7.0",
+    "@typescript-eslint/parser": "^5.7.0",
+    "eslint": "^8.5.0",
+    "eslint-config-next": "^12.0.7",
+    "eslint-plugin-react": "^7.28.0",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.2"
+  }
+}
