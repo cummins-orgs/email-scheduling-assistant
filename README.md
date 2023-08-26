@@ -2,7 +2,7 @@
 
 This is going to be an open-sourced email scheduling assistant. 
 
-Essentially, it'll be a wrapper around GPT, your calendar, and an email inbox. 
+Essentially, it'll interface between GPT, your calendar, and an email inbox. 
 
 Then you cc the assistant and ask it to find a time for you and someone else to meet, in a thread. 
 
