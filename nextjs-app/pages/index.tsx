@@ -1,42 +1,36 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
+  const [email, setEmail] = useState(null);
+  const [calendar, setCalendar] = useState(null);
+  const [gpt3Response, setGpt3Response] = useState(null);
+
   useEffect(() => {
     const fetchEmailAndCalendar = async () => {
-      // Fetch new email
-      const emailRes = await fetch('/api/mail');
-      const email = await emailRes.json();
+      try {
+        // Fetch new email
+        const emailRes = await fetch('/api/mail');
+        const emailData = await emailRes.json();
+        setEmail(emailData);
 
-      // Fetch next week's calendar
-      const calendarRes = await fetch('/api/calendar');
-      const calendar = await calendarRes.json();
+        // Fetch next week's calendar
+        const calendarRes = await fetch('/api/calendar');
+        const calendarData = await calendarRes.json();
+        setCalendar(calendarData);
 
-      // Send email body and calendar to GPT-3.5
-      const gpt3Res = await fetch('/api/gpt3', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          prompt: "You are an email scheduling assistant",
-          emailBody: email.body,
-          calendarSummary: calendar.summary,
-        }),
-      });
-      const gpt3Response = await gpt3Res.json();
-
-      // Reply to the email with the GPT-3.5 response
-      await fetch('/api/reply', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          to: email.from,
-          subject: `Re: ${email.subject}`,
-          body: gpt3Response.message,
-        }),
-      });
+        // Send email body and calendar to GPT-3.5
+        const gpt3Res = await fetch('/api/gpt3', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email: emailData, calendar: calendarData }),
+        });
+        const gpt3Data = await gpt3Res.json();
+        setGpt3Response(gpt3Data);
+      } catch (error) {
+        console.error('An error occurred:', error);
+      }
     };
 
     fetchEmailAndCalendar();
@@ -44,8 +38,19 @@ export default function Home() {
 
   return (
     <div>
-      <h1>Welcome to the Email Scheduling Assistant</h1>
-      <p>This app is currently processing your requests...</p>
+      <h1>Home Page</h1>
+      <div>
+        <h2>Email:</h2>
+        <pre>{JSON.stringify(email, null, 2)}</pre>
+      </div>
+      <div>
+        <h2>Calendar:</h2>
+        <pre>{JSON.stringify(calendar, null, 2)}</pre>
+      </div>
+      <div>
+        <h2>GPT-3 Response:</h2>
+        <pre>{JSON.stringify(gpt3Response, null, 2)}</pre>
+      </div>
     </div>
   );
 }
